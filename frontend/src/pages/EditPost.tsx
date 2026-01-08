@@ -39,7 +39,7 @@ export default function EditPost() {
         const fetchData = async () => {
             try {
                 // Post verisini çek
-                const postRes = await fetch(`http://localhost:3000/posts/${id}`);
+                const postRes = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`);
                 if (!postRes.ok) throw new Error("Yazı bulunamadı");
 
                 const postData: Post = await postRes.json();
@@ -56,7 +56,7 @@ export default function EditPost() {
                 }
 
                 // Tag'leri çek
-                const tagsRes = await fetch("http://localhost:3000/tags");
+                const tagsRes = await fetch("https://mindwrite-api.onrender.com/tags");
                 if (tagsRes.ok) {
                     const tagsData = await tagsRes.json();
                     setTags(tagsData);
@@ -78,7 +78,7 @@ export default function EditPost() {
         setError("");
 
         try {
-            const res = await fetch(`http://localhost:3000/posts/${id}`, {
+            const res = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export default function EditPost() {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/posts/${id}`, {
+            const res = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,

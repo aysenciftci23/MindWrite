@@ -20,7 +20,7 @@ export default function Write() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetch("http://localhost:3000/tags")
+        fetch("https://mindwrite-api.onrender.com/tags")
             .then(res => {
                 if (!res.ok) throw new Error("Tag'ler yüklenemedi");
                 return res.json();
@@ -42,7 +42,7 @@ export default function Write() {
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:3000/posts", {
+            const res = await fetch("https://mindwrite-api.onrender.com/posts", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -126,8 +126,8 @@ export default function Write() {
                                 type="button"
                                 onClick={() => setStatus("published")}
                                 className={`flex-1 py-3 px-4 rounded-lg font-medium transition ${status === "published"
-                                        ? 'bg-gray-900 text-white'
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                     }`}
                             >
                                 ✅ Yayınla
@@ -136,8 +136,8 @@ export default function Write() {
                                 type="button"
                                 onClick={() => setStatus("draft")}
                                 className={`flex-1 py-3 px-4 rounded-lg font-medium transition ${status === "draft"
-                                        ? 'bg-gray-900 text-white'
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                     }`}
                             >
                                 📝 Taslak
@@ -166,8 +166,8 @@ export default function Write() {
                                             }
                                         }}
                                         className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedTagIds.includes(tag.id)
-                                                ? 'bg-gray-900 text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            ? 'bg-gray-900 text-white'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                             }`}
                                     >
                                         {tag.name}

@@ -40,7 +40,7 @@ export default function Register() {
                 return;
             }
 
-            const res = await fetch("http://localhost:3000/auth/register", {
+            const res = await fetch("https://mindwrite-api.onrender.com/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password, firstName: name, lastName: surname }),
@@ -69,7 +69,7 @@ export default function Register() {
         }
         setCheckingUsername(true);
         try {
-            const res = await fetch(`http://localhost:3000/auth/check-username?username=${encodeURIComponent(value)}`);
+            const res = await fetch(`https://mindwrite-api.onrender.com/auth/check-username?username=${encodeURIComponent(value)}`);
             if (!res.ok) {
                 setUsernameAvailable(null);
             } else {

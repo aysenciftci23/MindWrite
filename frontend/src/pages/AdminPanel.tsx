@@ -38,7 +38,7 @@ export default function AdminPanel() {
         try {
             console.log('🚀 [ADMINPANEL] Fetching /admin/users...');
 
-            const res = await fetch("http://localhost:3000/admin/users", {
+            const res = await fetch("https://mindwrite-api.onrender.com/admin/users", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -108,7 +108,7 @@ export default function AdminPanel() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const res = await fetch("http://localhost:3000/posts");
+                const res = await fetch("https://mindwrite-api.onrender.com/posts");
                 if (!res.ok) throw new Error("Yazılar yüklenemedi");
 
                 const data = await res.json();
@@ -131,7 +131,7 @@ export default function AdminPanel() {
         try {
             console.log(`🔄 [ADMINPANEL] Updating user ${userId} role to ${newRole}`);
 
-            const res = await fetch(`http://localhost:3000/admin/users/${userId}/role`, {
+            const res = await fetch(`https://mindwrite-api.onrender.com/admin/users/${userId}/role`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -171,7 +171,7 @@ export default function AdminPanel() {
         try {
             console.log(`🗑️ [ADMINPANEL] Deleting user ${userId} (${username})`);
 
-            const res = await fetch(`http://localhost:3000/admin/users/${userId}`, {
+            const res = await fetch(`https://mindwrite-api.onrender.com/admin/users/${userId}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`,

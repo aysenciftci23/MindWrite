@@ -27,7 +27,7 @@ export default function PostDetail() {
     const [submittingComment, setSubmittingComment] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/posts/${id}`)
+        fetch(`https://mindwrite-api.onrender.com/posts/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error("Post bulunamadı");
                 return res.json();
@@ -56,7 +56,7 @@ export default function PostDetail() {
             return;
         }
         try {
-            const res = await fetch("http://localhost:3000/comments", {
+            const res = await fetch("https://mindwrite-api.onrender.com/comments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({
@@ -68,7 +68,7 @@ export default function PostDetail() {
 
             if (!res.ok) throw new Error("Yorum eklenemedi");
 
-            const updatedPost = await fetch(`http://localhost:3000/posts/${id}`).then(r => r.json());
+            const updatedPost = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`).then(r => r.json());
             setPost(updatedPost);
             setCommentContent("");
             alert("Yorumunuz eklendi! ✅");

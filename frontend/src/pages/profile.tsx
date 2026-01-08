@@ -50,7 +50,7 @@ export default function Profile() {
                 // 1. Kullanıcı bilgisi çek (public endpoint)
                 let userData = null;
                 try {
-                    const userRes = await authFetch(`http://localhost:3000/auth/users/${username}`);
+                    const userRes = await authFetch(`https://mindwrite-api.onrender.com/auth/users/${username}`);
                     if (userRes.ok) {
                         userData = await userRes.json();
                     }
@@ -59,7 +59,7 @@ export default function Profile() {
                 }
 
                 // 2. Tüm post'ları çek
-                const postsRes = await authFetch("http://localhost:3000/posts");
+                const postsRes = await authFetch("https://mindwrite-api.onrender.com/posts");
                 const allPosts = await postsRes.json();
                 const userPostsAll = allPosts.filter((post: any) =>
                     post.author?.username === username
@@ -252,7 +252,7 @@ export default function Profile() {
                                 setUpdateError("");
                                 setUpdateSuccess(false);
                                 try {
-                                    const res = await fetch("http://localhost:3000/auth/me", {
+                                    const res = await fetch("https://mindwrite-api.onrender.com/auth/me", {
                                         method: "PUT",
                                         headers: {
                                             "Content-Type": "application/json",
@@ -441,7 +441,7 @@ export default function Profile() {
                         <button
                             onClick={() => {
                                 if (window.confirm(`${profileUser.username} kullanıcısını admin yapmak istediğinize emin misiniz?`)) {
-                                    fetch(`http://localhost:3000/admin/users/${profileUser.id}/role`, {
+                                    fetch(`https://mindwrite-api.onrender.com/admin/users/${profileUser.id}/role`, {
                                         method: "PUT",
                                         headers: {
                                             "Content-Type": "application/json",
