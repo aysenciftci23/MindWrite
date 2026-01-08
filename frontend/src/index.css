@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global typography and background */
+@layer base {
+
+    html,
+    body,
+    #root {
+        height: 100%;
+    }
+
+    body {
+        @apply font-sans bg-gray-50 text-gray-900 antialiased;
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-serif;
+    }
+}
