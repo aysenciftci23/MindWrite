@@ -1,2 +1,3 @@
-export const API_URL = "http://localhost:3000";
-// export const API_URL = "https://mindwrite-api.onrender.com"; // Production URL
+export const API_URL = window.location.hostname === 'localhost'
+    ? "http://localhost:3000"
+    : "https://mindwrite-api.onrender.com";
