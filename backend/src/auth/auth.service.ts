@@ -23,7 +23,7 @@ export class AuthService {
       username: loginUser.username,
     });
     if (!user) return null;
-    // prevent inactive users from logging in
+
     if (user.isActive === false) return null;
 
     const ok = await bcrypt.compare(loginUser.password, user.password);
@@ -48,7 +48,7 @@ export class AuthService {
     };
   }
 
-  // backend/src/auth/auth.service.ts
+
   async register(registerUser: RegisterUserDto) {
     console.log('Register request:', registerUser);
     const user = new User();
@@ -61,11 +61,11 @@ export class AuthService {
     return this.usersRepository.save(user);
   }
 
-  // 🔥 YENİ METODLAR: Admin işlemleri için
+
 
   async getAllUsers(): Promise<User[]> {
     return this.usersRepository.find({
-      select: ['id', 'username', 'firstName', 'lastName', 'role', 'createdAt', 'isActive'], // Şifreyi döndürme
+      select: ['id', 'username', 'firstName', 'lastName', 'role', 'createdAt', 'isActive'],
       order: { id: 'ASC' },
     });
   }
@@ -77,7 +77,7 @@ export class AuthService {
       throw new NotFoundException('Kullanıcı bulunamadı');
     }
 
-    // Geçerli roller kontrolü
+
     if (!['editor', 'admin'].includes(newRole)) {
       throw new Error('Geçersiz rol');
     }
@@ -87,7 +87,7 @@ export class AuthService {
   }
 
   async deleteUser(userId: number): Promise<void> {
-    // Use a direct update to avoid loading relations and to provide clearer errors
+
     try {
       const result = await this.usersRepository.update(userId, {
         isActive: false,
@@ -98,12 +98,12 @@ export class AuthService {
         throw new NotFoundException('Kullanıcı bulunamadı');
       }
     } catch (err) {
-      // Log full error and stack for debugging
+
       console.error('deleteUser error:', err);
       if (err && err.stack) console.error(err.stack);
-      // If it's a NotFoundException, rethrow; otherwise wrap to give clearer 500 message
+
       if (err instanceof NotFoundException) throw err;
-      // Include original error message in response to help debugging during development
+
       const msg = err?.message ? `Kullanıcı silinirken hata oluştu: ${err.message}` : 'Kullanıcı silinirken hata oluştu';
       throw new InternalServerErrorException(msg);
     }
@@ -122,9 +122,7 @@ export class AuthService {
     return user || null;
   }
 
-  // (Removed: deleteAccountPermanently) Permanent deletion endpoint is disabled.
 
-  // Kendi profilini güncelle (editör ve admin)
   async updateOwnProfile(userId: number, update: Partial<{ firstName: string, lastName: string, password: string }>): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id: userId });
     if (!user) throw new NotFoundException('Kullanıcı bulunamadı');

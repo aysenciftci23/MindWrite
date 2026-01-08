@@ -54,7 +54,7 @@ export default function PostDetail() {
             setSubmittingComment(false);
             return;
         }
-        if (!token) {
+        if (!token || !user?.username) {
             alert("Yorum yapabilmek için giriş yapmalısınız.");
             setSubmittingComment(false);
             return;
@@ -63,7 +63,7 @@ export default function PostDetail() {
             const res = await fetch(`${API_URL}/comments`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-                body: JSON.stringify({ content: comment, postId: Number(id) }),
+                body: JSON.stringify({ content: comment, postId: Number(id), authorName: user.username }),
             });
 
             if (res.ok) {

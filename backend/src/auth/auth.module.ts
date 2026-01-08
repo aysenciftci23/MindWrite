@@ -1,8 +1,8 @@
-// backend/src/auth/auth.module.ts
+
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { AdminController } from './admin.controller'; // 🔥 Bunu ekle
+import { AdminController } from './admin.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './user.entity';
@@ -20,7 +20,7 @@ import { JwtStrategy } from './jwt.strategy';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  controllers: [AuthController, AdminController], // 🔥 AdminController'ı ekle
+  controllers: [AuthController, AdminController],
   providers: [AuthService, JwtStrategy],
 })
 export class AuthModule { }

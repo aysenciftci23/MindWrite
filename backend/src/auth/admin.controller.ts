@@ -1,4 +1,4 @@
-// backend/src/auth/admin.controller.ts
+
 import { Controller, Get, Put, Delete, Param, Body, UseGuards, NotFoundException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Role } from './role.decorator';
@@ -18,7 +18,7 @@ export class AdminController {
         private authService: AuthService,
     ) { }
 
-    // Tüm kullanıcıları listele
+
     @Get()
     async findAll() {
         return this.usersRepository.find({
@@ -27,7 +27,7 @@ export class AdminController {
         });
     }
 
-    // Kullanıcı rolünü güncelle
+
     @Put(':id/role')
     async updateRole(@Param('id') id: string, @Body('role') role: string) {
         const user = await this.usersRepository.findOneBy({ id: Number(id) });
@@ -35,7 +35,7 @@ export class AdminController {
             throw new NotFoundException('User not found');
         }
 
-        // Sadece 'admin' veya 'editor' rolüne izin ver
+
         if (role !== 'admin' && role !== 'editor') {
             throw new NotFoundException('Geçersiz rol. Sadece "admin" veya "editor" kabul edilir.');
         }
@@ -49,7 +49,7 @@ export class AdminController {
         };
     }
 
-    // Kullanıcı sil
+
     @Delete(':id')
     async remove(@Param('id') id: string) {
         const user = await this.usersRepository.findOneBy({ id: Number(id) });
@@ -57,8 +57,7 @@ export class AdminController {
             throw new NotFoundException('User not found');
         }
 
-        // Admin kendini silemesin
-        // (Frontend'de de kontrol ediyoruz ama backend'de de güvenlik için)
+
 
         await this.authService.deleteUser(Number(id));
 
