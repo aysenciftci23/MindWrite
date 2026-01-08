@@ -129,7 +129,7 @@ export default function AdminPanel() {
 
     const updateUserRole = async (userId: number, newRole: 'admin' | 'editor') => {
         try {
-            console.log(`🔄 [ADMINPANEL] Updating user ${userId} role to ${newRole}`);
+
 
             const res = await fetch(`https://mindwrite-api.onrender.com/admin/users/${userId}/role`, {
                 method: "PUT",

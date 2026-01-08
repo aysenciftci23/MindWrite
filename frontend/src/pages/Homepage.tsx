@@ -28,7 +28,7 @@ export default function Homepage() {
     const selectedTag = searchParams.get("tag");
 
     useEffect(() => {
-        fetch("https://mindwrite-api.onrender.com/posts")
+        fetch("http://localhost:3000/posts")
             .then(res => res.json())
             .then(data => {
                 // Sadece published olanları al
