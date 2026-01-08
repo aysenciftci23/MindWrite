@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
 import { useAuthFetch } from "../auth/useAuthFetch";
+import { API_URL } from "../api";
 
 type User = {
     id: number;
@@ -48,18 +49,21 @@ export default function Profile() {
         const fetchData = async () => {
             try {
                 // 1. Kullanıcı bilgisi çek (public endpoint)
-                let userData = null;
-                try {
-                    const userRes = await authFetch(`https://mindwrite-api.onrender.com/auth/users/${username}`);
-                    if (userRes.ok) {
-                        userData = await userRes.json();
-                    }
-                } catch (e) {
-                    // public endpoint yoksa userData null kalır
+                let userData: User | null = null;
+                if (username) {
+                    const userRes = await authFetch(`${API_URL}/auth/users/${username}`);
+                    if (!userRes.ok) throw new Error("Kullanıcı bulunamadı");
+                    userData = await userRes.json();
+                    setProfileUser(userData);
                 }
 
                 // 2. Tüm post'ları çek
-                const postsRes = await authFetch("https://mindwrite-api.onrender.com/posts");
+                // Kullanıcının postlarını al (backend'de filter var mı kontrol etmeli, yoksa tümünü çekip filtrele)
+                // Şimdilik fake: backend endpoint'e user id parametresi eklemek en iyisi
+                // Veya /posts endpoint'i zaten var, filterelemeyi client'ta yapabiliriz (ama pagination için kötü)
+                // Backend'de filter varsa: /posts?authorId=...
+                // Mevcut backend yapısına göre:
+                const postsRes = await authFetch(`${API_URL}/posts`);
                 const allPosts = await postsRes.json();
                 const userPostsAll = allPosts.filter((post: any) =>
                     post.author?.username === username
@@ -252,7 +256,7 @@ export default function Profile() {
                                 setUpdateError("");
                                 setUpdateSuccess(false);
                                 try {
-                                    const res = await fetch("https://mindwrite-api.onrender.com/auth/me", {
+                                    const res = await fetch(`${API_URL}/auth/me`, {
                                         method: "PUT",
                                         headers: {
                                             "Content-Type": "application/json",
@@ -441,7 +445,7 @@ export default function Profile() {
                         <button
                             onClick={() => {
                                 if (window.confirm(`${profileUser.username} kullanıcısını admin yapmak istediğinize emin misiniz?`)) {
-                                    fetch(`https://mindwrite-api.onrender.com/admin/users/${profileUser.id}/role`, {
+                                    fetch(`${API_URL}/admin/users/${profileUser.id}/role`, {
                                         method: "PUT",
                                         headers: {
                                             "Content-Type": "application/json",

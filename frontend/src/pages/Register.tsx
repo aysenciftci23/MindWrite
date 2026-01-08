@@ -1,49 +1,105 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function Register() {
-    const [username, setUsername] = useState("");
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [password, setPassword] = useState("");
-    const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
-    const [checkingUsername, setCheckingUsername] = useState(false);
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
+    const [checkingUsername, setCheckingUsername] = useState(false);
+
+    const checkUsername = async (value: string) => {
+        if (value.length < 3) {
+            setUsernameAvailable(null);
+            setCheckingUsername(false);
+            return;
+        }
+        setCheckingUsername(true);
+        try {
+            const res = await fetch(`${API_URL}/auth/check-username?username=${encodeURIComponent(value)}`);
+            const data = await res.json();
+            setUsernameAvailable(data.available);
+        } catch (err) {
+            console.error("Username check failed", err);
+            setUsernameAvailable(null);
+        } finally {
+            setCheckingUsername(false);
+        }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+
+        if (name === "username") {
+            setUsernameAvailable(null);
+            // Debouncing manually here or relying on onBlur
+            // For now, simpler to just clear status on change and check on blur as existing logic did
+        }
+    };
+
+    // Auto-check username with debounce effect
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (formData.username.length >= 3) {
+                checkUsername(formData.username);
+            }
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [formData.username]);
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
         setError("");
+        setLoading(true);
 
-        // İsim ve soyisim zorunlu
-        if (!name.trim() || !surname.trim()) {
+        if (!formData.firstName.trim() || !formData.lastName.trim()) {
             setError("İsim ve soyisim alanları zorunludur.");
             setLoading(false);
             return;
         }
 
-        // Password policy: minimum 8 chars, at least one lowercase, one uppercase, one digit, one special
         const policy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-        if (!policy.test(password)) {
+        if (!policy.test(formData.password)) {
             setError("Şifre: en az 8 karakter, 1 büyük harf, 1 küçük harf, 1 sayı ve 1 sembol içermelidir.");
             setLoading(false);
             return;
         }
 
-        try {
-            // final availability check before submit
-            if (usernameAvailable === false) {
-                setError("Bu kullanıcı adı zaten alınmış. Lütfen başka bir kullanıcı adı seçin.");
-                setLoading(false);
-                return;
-            }
+        if (formData.password !== formData.confirmPassword) {
+            setError("Şifreler eşleşmiyor.");
+            setLoading(false);
+            return;
+        }
 
-            const res = await fetch("https://mindwrite-api.onrender.com/auth/register", {
+        if (usernameAvailable === false) {
+            setError("Bu kullanıcı adı zaten alınmış. Lütfen başka bir kullanıcı adı seçin.");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_URL}/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password, firstName: name, lastName: surname }),
+                body: JSON.stringify({
+                    username: formData.username,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    password: formData.password
+                }),
             });
 
             if (!res.ok) {
@@ -59,27 +115,6 @@ export default function Register() {
         } catch (err) {
             setError("Bir hata oluştu. Lütfen tekrar deneyin.");
             setLoading(false);
-        }
-    };
-
-    const checkUsername = async (value: string) => {
-        if (!value) {
-            setUsernameAvailable(null);
-            return;
-        }
-        setCheckingUsername(true);
-        try {
-            const res = await fetch(`https://mindwrite-api.onrender.com/auth/check-username?username=${encodeURIComponent(value)}`);
-            if (!res.ok) {
-                setUsernameAvailable(null);
-            } else {
-                const data = await res.json();
-                setUsernameAvailable(Boolean(data.available));
-            }
-        } catch (err) {
-            setUsernameAvailable(null);
-        } finally {
-            setCheckingUsername(false);
         }
     };
 
@@ -109,11 +144,11 @@ export default function Register() {
                         </label>
                         <input
                             type="text"
+                            name="username"
                             placeholder="kullanıcı adınız"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={username}
-                            onChange={(e) => { setUsername(e.target.value); setUsernameAvailable(null); }}
-                            onBlur={(e) => checkUsername(e.target.value)}
+                            value={formData.username}
+                            onChange={handleChange}
                             required
                         />
                         <p className="text-xs mt-1">
@@ -133,10 +168,11 @@ export default function Register() {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Ad</label>
                         <input
                             type="text"
+                            name="firstName"
                             placeholder="Adınız"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={formData.firstName}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -145,10 +181,24 @@ export default function Register() {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Soyad</label>
                         <input
                             type="text"
+                            name="lastName"
                             placeholder="Soyadınız"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">E-posta</label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="ornek@email.com"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            value={formData.email}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -159,10 +209,11 @@ export default function Register() {
                         </label>
                         <input
                             type="password"
+                            name="password"
                             placeholder="••••••••"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={formData.password}
+                            onChange={handleChange}
                             required
                             minLength={8}
                         />
@@ -176,6 +227,22 @@ export default function Register() {
                                 <li>En az 1 sembol (örn. !@#$%)</li>
                             </ul>
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Şifre Tekrar
+                        </label>
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="••••••••"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            required
+                            minLength={8}
+                        />
                     </div>
 
                     <button

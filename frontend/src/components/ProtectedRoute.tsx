@@ -8,7 +8,12 @@ type ProtectedRouteProps = {
 };
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        // Basit bir loading göstergesi veya null döndülebilir
+        return <div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>;
+    }
 
     if (!user) {
         return <Navigate to="/login" replace />;

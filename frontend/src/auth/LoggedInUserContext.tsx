@@ -21,12 +21,12 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true); // 🔥 İlk başta true
+    const [loading, setLoading] = useState(true);
 
-    // 🔥 Component mount olduğunda localStorage'dan token'ı kontrol et
+    // Component mount olduğunda localStorage'dan token'ı kontrol et
     useEffect(() => {
-        const storedToken = sessionStorage.getItem("token");
-        const storedUser = sessionStorage.getItem("user");
+        const storedToken = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("user");
 
         if (storedToken && storedUser) {
             try {
@@ -35,8 +35,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(parsedUser);
             } catch (error) {
                 console.error("User parse hatası:", error);
-                sessionStorage.removeItem("token");
-                sessionStorage.removeItem("user");
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
             }
         }
         setLoading(false); // Loading tamamlandı
@@ -45,15 +45,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const login = (user: User, token: string) => {
         setUser(user);
         setToken(token);
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("user", JSON.stringify(user)); // 🔥 User'ı da sakla
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
     };
 
     const logout = () => {
         setUser(null);
         setToken(null);
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("user"); // 🔥 User'ı da temizle
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
     };
 
     return (

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
 import { FiHome, FiTrendingUp, FiClock, FiUser, FiTag, FiEdit } from "react-icons/fi";
+import { API_URL } from "../api";
 
 type Post = {
     id: number;
@@ -28,7 +29,7 @@ export default function Homepage() {
     const selectedTag = searchParams.get("tag");
 
     useEffect(() => {
-        fetch("http://localhost:3000/posts")
+        fetch(`${API_URL}/posts`)
             .then(res => res.json())
             .then(data => {
                 // Sadece published olanları al

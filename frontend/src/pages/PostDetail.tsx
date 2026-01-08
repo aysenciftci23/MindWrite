@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
+import { API_URL } from "../api";
 
 type Post = {
     id: number;
@@ -17,19 +18,21 @@ type Post = {
 };
 
 export default function PostDetail() {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams();
+
     const { user, token } = useAuth();
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
+    const [comment, setComment] = useState("");
     const [error, setError] = useState("");
-    const [commentContent, setCommentContent] = useState("");
-    const [commentAuthor, setCommentAuthor] = useState(user?.username || "");
     const [submittingComment, setSubmittingComment] = useState(false);
 
+
     useEffect(() => {
-        fetch(`https://mindwrite-api.onrender.com/posts/${id}`)
+        // Post'u çek
+        fetch(`${API_URL}/posts/${id}`)
             .then(res => {
-                if (!res.ok) throw new Error("Post bulunamadı");
+                if (!res.ok) throw new Error("Yazı bulunamadı");
                 return res.json();
             })
             .then(data => {
@@ -37,43 +40,42 @@ export default function PostDetail() {
                 setLoading(false);
             })
             .catch(err => {
+                console.error(err);
                 setError(err.message);
                 setLoading(false);
             });
     }, [id]);
 
-    // Keep comment author in sync with logged-in user
-    useEffect(() => {
-        setCommentAuthor(user?.username || "");
-    }, [user]);
 
     const handleCommentSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmittingComment(true);
+        if (!comment.trim()) {
+            setSubmittingComment(false);
+            return;
+        }
         if (!token) {
             alert("Yorum yapabilmek için giriş yapmalısınız.");
             setSubmittingComment(false);
             return;
         }
         try {
-            const res = await fetch("https://mindwrite-api.onrender.com/comments", {
+            const res = await fetch(`${API_URL}/comments`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-                body: JSON.stringify({
-                    content: commentContent,
-                    authorName: commentAuthor,
-                    postId: Number(id),
-                }),
+                body: JSON.stringify({ content: comment, postId: Number(id) }),
             });
 
-            if (!res.ok) throw new Error("Yorum eklenemedi");
-
-            const updatedPost = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`).then(r => r.json());
-            setPost(updatedPost);
-            setCommentContent("");
-            alert("Yorumunuz eklendi! ✅");
-        } catch (err: any) {
-            alert(err.message);
+            if (res.ok) {
+                setComment("");
+                // Yorumları güncelle
+                const updatedPost = await fetch(`${API_URL}/posts/${id}`).then(r => r.json());
+                setPost(updatedPost);
+            } else {
+                throw new Error("Yorum eklenemedi");
+            }
+        } catch (err) {
+            console.error(err);
         } finally {
             setSubmittingComment(false);
         }
@@ -198,21 +200,12 @@ export default function PostDetail() {
                     {/* Comment Form */}
                     {user ? (
                         <form onSubmit={handleCommentSubmit} className="mb-12 bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-                            <h4 className="font-semibold text-gray-900 mb-4">Yorum Yap</h4>
+                            <h4 className="font-semibold text-gray-900 mb-4">Yorum Yap ({user?.username})</h4>
                             <div className="space-y-4">
-                                <input
-                                    type="text"
-                                    placeholder="Adınız"
-                                    value={commentAuthor}
-                                    onChange={(e) => setCommentAuthor(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                                    required
-                                    readOnly={!!user}
-                                />
                                 <textarea
                                     placeholder="Düşüncelerinizi paylaşın..."
-                                    value={commentContent}
-                                    onChange={(e) => setCommentContent(e.target.value)}
+                                    value={comment}
+                                    onChange={(e) => setComment(e.target.value)}
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                                     rows={4}
                                     required

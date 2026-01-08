@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
+import { API_URL } from "../api";
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -16,7 +17,7 @@ const Login = () => {
         setError("");
 
         try {
-            const res = await fetch("https://mindwrite-api.onrender.com/auth/login", {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),

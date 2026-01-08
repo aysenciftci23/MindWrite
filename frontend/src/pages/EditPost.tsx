@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
+import { API_URL } from "../api";
 
 type Tag = {
     id: number;
@@ -39,7 +40,7 @@ export default function EditPost() {
         const fetchData = async () => {
             try {
                 // Post verisini çek
-                const postRes = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`);
+                const postRes = await fetch(`${API_URL}/posts/${id}`);
                 if (!postRes.ok) throw new Error("Yazı bulunamadı");
 
                 const postData: Post = await postRes.json();
@@ -56,7 +57,8 @@ export default function EditPost() {
                 }
 
                 // Tag'leri çek
-                const tagsRes = await fetch("https://mindwrite-api.onrender.com/tags");
+                // Tag'leri çek
+                const tagsRes = await fetch(`${API_URL}/tags`);
                 if (tagsRes.ok) {
                     const tagsData = await tagsRes.json();
                     setTags(tagsData);
@@ -78,7 +80,7 @@ export default function EditPost() {
         setError("");
 
         try {
-            const res = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`, {
+            const res = await fetch(`${API_URL}/posts/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +110,7 @@ export default function EditPost() {
         }
 
         try {
-            const res = await fetch(`https://mindwrite-api.onrender.com/posts/${id}`, {
+            const res = await fetch(`${API_URL}/posts/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,

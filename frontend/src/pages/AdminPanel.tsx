@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
 import ProtectedRoute from "../components/ProtectedRoute";
+import { API_URL } from "../api";
 
 type User = {
     id: number;
@@ -38,10 +39,9 @@ export default function AdminPanel() {
         try {
             console.log('🚀 [ADMINPANEL] Fetching /admin/users...');
 
-            const res = await fetch("https://mindwrite-api.onrender.com/admin/users", {
+            const res = await fetch(`${API_URL}/admin/users`, {
                 headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
+                    "Authorization": `Bearer ${token}`
                 }
             });
 

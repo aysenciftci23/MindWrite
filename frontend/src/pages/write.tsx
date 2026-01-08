@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
+import { API_URL } from "../api";
 
 type Tag = {
     id: number;
@@ -20,7 +21,7 @@ export default function Write() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetch("https://mindwrite-api.onrender.com/tags")
+        fetch(`${API_URL}/tags`)
             .then(res => {
                 if (!res.ok) throw new Error("Tag'ler yüklenemedi");
                 return res.json();
@@ -42,7 +43,7 @@ export default function Write() {
         setLoading(true);
 
         try {
-            const res = await fetch("https://mindwrite-api.onrender.com/posts", {
+            const res = await fetch(`${API_URL}/posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
