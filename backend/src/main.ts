@@ -8,7 +8,8 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',
       'https://mindwrite-frontend.vercel.app',
-      'https://mindwrite-frontend-git-main-aysenciftci23s-projects.vercel.app', // Vercel preview URL'lerini de eklemek iyi olabilir
+      'https://mindwrite-frontend-git-main-aysenciftci23s-projects.vercel.app',
+      'https://mindwrite-frontend-b061s27h2-aysenciftc123s-projects.vercel.app', // Eklenen URL
     ],
     credentials: true,
   });
