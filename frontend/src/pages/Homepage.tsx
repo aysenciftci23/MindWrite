@@ -481,11 +481,7 @@ export default function Homepage() {
                             </div>
                             <p className="text-gray-400">Açık kaynaklı blog platformu • 2025</p>
                         </div>
-                        <div className="flex space-x-6">
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">GitHub</a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">Dokümantasyon</a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">İletişim</a>
-                        </div>
+
                     </div>
                     <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
                         <p>Made with ❤️ for CENG 307 Project</p>
