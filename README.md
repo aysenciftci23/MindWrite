@@ -158,6 +158,6 @@ Veritabanı **PostgreSQL** kullanılarak tasarlanmıştır.
 
 ## 📌 Notlar
 
-- Proje **CENG 307 – Web Mühendisliği** dersi kapsamında geliştirilmiştir.
+- Proje **CENG 307 – Web Tabanlı Teknolojiler** dersi kapsamında geliştirilmiştir.
 - Kod yapısı ölçeklenebilir ve geliştirilmeye açıktır.
 - Deployment süreçleri gerçek ortamda test edilmiştir.
