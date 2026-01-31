@@ -34,7 +34,7 @@ export default function AdminPanel() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    // Kullanıcıları çek - DEBUG EKLİ
+   
     const fetchUsers = async () => {
         try {
             console.log('🚀 [ADMINPANEL] Fetching /admin/users...');
@@ -48,7 +48,7 @@ export default function AdminPanel() {
             console.log('📡 [ADMINPANEL] Response status:', res.status, res.statusText);
             console.log('📡 [ADMINPANEL] Response ok?', res.ok);
 
-            // Response'u önce text olarak oku
+           
             const responseText = await res.text();
             console.log('📄 [ADMINPANEL] Response text (first 500 chars):', responseText.substring(0, 500));
 
@@ -67,7 +67,7 @@ export default function AdminPanel() {
                 return;
             }
 
-            // JSON parse etmeye çalış
+         
             try {
                 const data = JSON.parse(responseText);
                 console.log('✅ [ADMINPANEL] Users data received:', data);
@@ -81,7 +81,7 @@ export default function AdminPanel() {
                 }
             } catch (parseError) {
                 console.error('❌ [ADMINPANEL] JSON parse error:', parseError);
-                // ⬇️ BU SATIRI DEĞİŞTİR:
+                
                 setError(`JSON parse hatası: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
             }
         } catch (err: any) {
@@ -104,7 +104,7 @@ export default function AdminPanel() {
         }
     }, [token]);
 
-    // Post'ları çek
+   
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -146,7 +146,7 @@ export default function AdminPanel() {
                 throw new Error(`Rol güncellenemedi: ${errorText}`);
             }
 
-            // UI'ı güncelle
+            
             setUsers(users.map(u =>
                 u.id === userId ? { ...u, role: newRole } : u
             ));
@@ -154,7 +154,7 @@ export default function AdminPanel() {
             const username = users.find(u => u.id === userId)?.username;
             setSuccess(`${username} kullanıcısı artık ${newRole === 'admin' ? 'admin' : 'editör'} oldu`);
 
-            // 3 saniye sonra mesajı temizle
+            
             setTimeout(() => setSuccess(""), 3000);
 
         } catch (err: any) {
@@ -184,7 +184,7 @@ export default function AdminPanel() {
                 throw new Error(`Kullanıcı silinemedi: ${errorText}`);
             }
 
-            // UI'dan kaldır
+            
             setUsers(users.filter(u => u.id !== userId));
             setSuccess(`${username} kullanıcısı silindi`);
 
@@ -212,7 +212,7 @@ export default function AdminPanel() {
 
     const isLoading = loading.users || loading.posts;
 
-    // DEBUG: State'leri logla
+   
     console.log('📊 [ADMINPANEL] Current state:', {
         usersCount: users.length,
         postsCount: posts.length,
@@ -225,7 +225,7 @@ export default function AdminPanel() {
     return (
         <ProtectedRoute allowedRoles={["admin"]}>
             <div className="max-w-7xl mx-auto px-4 py-8">
-                {/* Başlık */}
+                {}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">
                         👑 Admin Paneli
@@ -240,7 +240,7 @@ export default function AdminPanel() {
                     </p>
                 </div>
 
-                {/* Mesajlar */}
+                {}
                 {error && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
                         <p className="font-bold">Hata!</p>
@@ -261,7 +261,7 @@ export default function AdminPanel() {
                     </div>
                 )}
 
-                {/* Kullanıcı Yönetimi */}
+                {}
                 <section className="bg-white rounded-xl shadow-lg mb-8 overflow-hidden">
                     <div className="p-6 border-b bg-gradient-to-r from-gray-50 to-white">
                         <div className="flex items-center justify-between">
@@ -340,7 +340,7 @@ export default function AdminPanel() {
                                                                 {(() => {
                                                                     const first = (u.firstName ?? '').trim();
                                                                     const last = (u.lastName ?? '').trim();
-                                                                    // Her zaman isim ve soyisim göster
+                                                                   
                                                                     const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
                                                                     return `${capitalize(first)}${first && last ? ' ' : ''}${capitalize(last)}`.trim();
                                                                 })()}
@@ -370,7 +370,7 @@ export default function AdminPanel() {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center space-x-3">
-                                                    {/* Rol değiştirme */}
+                                                    {}
                                                     <select
                                                         value={u.role}
                                                         onChange={(e) => updateUserRole(u.id, e.target.value as 'admin' | 'editor')}
@@ -381,7 +381,7 @@ export default function AdminPanel() {
                                                         <option value="admin">👑 Admin</option>
                                                     </select>
 
-                                                    {/* Silme butonu (kendini silemez) */}
+                                                    {}
                                                     {u.id !== currentUser?.id && (
                                                         <button
                                                             onClick={() => deleteUser(u.id, u.username)}
@@ -403,7 +403,7 @@ export default function AdminPanel() {
                     )}
                 </section>
 
-                {/* Yazı İstatistikleri */}
+                {}
                 <section className="bg-white rounded-xl shadow-lg p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">📊 Yazı İstatistikleri</h2>
 
@@ -456,7 +456,7 @@ export default function AdminPanel() {
                         </div>
                     )}
 
-                    {/* Son Yazılar */}
+                    {}
                     <div className="mt-8">
                         <h3 className="font-semibold text-gray-900 mb-4">📌 Son Yazılar</h3>
                         <div className="space-y-3">

@@ -14,7 +14,7 @@ export default function Write() {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [status, setStatus] = useState("published"); // 🔥 VARSAYILAN PUBLISHED
+    const [status, setStatus] = useState("published"); 
     const [tags, setTags] = useState<Tag[]>([]);
     const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
     const [error, setError] = useState("");
@@ -52,7 +52,7 @@ export default function Write() {
                 body: JSON.stringify({
                     title,
                     content,
-                    status, // 🔥 Status'u gönder
+                    status, 
                     tagIds: selectedTagIds,
                 }),
             });
@@ -75,7 +75,7 @@ export default function Write() {
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="max-w-4xl mx-auto px-4 py-8">
-                {/* Header */}
+                {}
                 <div className="mb-8">
                     <h1 className="text-4xl font-serif font-bold text-gray-900 mb-2">Yeni Yazı</h1>
                     <p className="text-gray-600">Düşüncelerinizi dünyanızla paylaşın.</p>
@@ -88,7 +88,7 @@ export default function Write() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Title Input - Large and Prominent */}
+                    {}
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                         <input
                             type="text"
@@ -100,7 +100,7 @@ export default function Write() {
                         />
                     </div>
 
-                    {/* Content Textarea - Clean and Spacious */}
+                    {}
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                         <textarea
                             placeholder="Hikayenizi anlatın..."
@@ -117,7 +117,7 @@ export default function Write() {
                         </div>
                     </div>
 
-                    {/* Status Selection - Modern Toggle Style */}
+                    {}
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                         <label className="block text-sm font-semibold text-gray-900 mb-4">
                             Yayınlama Durumu
@@ -146,7 +146,7 @@ export default function Write() {
                         </div>
                     </div>
 
-                    {/* Tags Selection */}
+                    {}
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                         <label className="block text-sm font-semibold text-gray-900 mb-4">
                             Etiketler (Opsiyonel)
@@ -178,7 +178,7 @@ export default function Write() {
                         )}
                     </div>
 
-                    {/* Action Buttons */}
+                    {}
                     <div className="flex items-center justify-between pt-6">
                         <button
                             type="button"

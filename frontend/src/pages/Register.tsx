@@ -42,12 +42,11 @@ export default function Register() {
 
         if (name === "username") {
             setUsernameAvailable(null);
-            // Debouncing manually here or relying on onBlur
-            // For now, simpler to just clear status on change and check on blur as existing logic did
+            
         }
     };
 
-    // Auto-check username with debounce effect
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             if (formData.username.length >= 3) {
@@ -109,7 +108,7 @@ export default function Register() {
                 return;
             }
 
-            // Başarılı kayıt
+            
             alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
             navigate("/login");
         } catch (err) {
@@ -264,7 +263,7 @@ export default function Register() {
                     </Link>
                 </p>
 
-                {/* Bilgi Notu */}
+                {}
                 <div className="mt-6 p-4 bg-indigo-50 rounded-lg">
                     <p className="text-xs text-indigo-700">
                         ✍️ Kayıt olduğunuzda otomatik olarak <strong>yazı yazma</strong> yetkisi alacaksınız.

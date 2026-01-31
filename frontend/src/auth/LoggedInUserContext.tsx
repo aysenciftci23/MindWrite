@@ -13,7 +13,7 @@ type AuthContextType = {
     token: string | null;
     login: (user: User, token: string) => void;
     logout: () => void;
-    loading: boolean; // 🔥 Loading state ekle
+    loading: boolean; 
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
-    // Component mount olduğunda localStorage'dan token'ı kontrol et
+    
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
         const storedUser = localStorage.getItem("user");
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 localStorage.removeItem("user");
             }
         }
-        setLoading(false); // Loading tamamlandı
+        setLoading(false); 
     }, []);
 
     const login = (user: User, token: string) => {

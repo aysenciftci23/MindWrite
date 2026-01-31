@@ -1,4 +1,4 @@
-// backend/src/posts/dto/create-post.dto.ts (SADECE BUNU TUT)
+
 import { IsString, IsNotEmpty, IsOptional, IsArray, IsInt } from 'class-validator';
 
 export class CreatePostDto {
@@ -23,4 +23,3 @@ export class CreatePostDto {
     @IsInt({ each: true })
     tagIds?: number[];
 }
-// ⚠️ SERVICE METODLARI BURADA OLMAZ! ⚠️

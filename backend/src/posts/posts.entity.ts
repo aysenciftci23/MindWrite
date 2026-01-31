@@ -6,7 +6,7 @@ import {
     OneToMany,
     ManyToMany,
     JoinTable,
-    CreateDateColumn, // 🔥 EKLE
+    CreateDateColumn, 
     DeleteDateColumn,
 } from 'typeorm';
 import { User } from '../auth/user.entity';
@@ -30,7 +30,7 @@ export class Post {
     @Column({ default: 'draft' })
     status: string;
 
-    @CreateDateColumn() // 🔥 EKLE
+    @CreateDateColumn() 
     createdAt: Date;
 
     @DeleteDateColumn({ nullable: true })

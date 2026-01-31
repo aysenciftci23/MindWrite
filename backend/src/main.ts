@@ -9,7 +9,7 @@ async function bootstrap() {
       'http://localhost:5173',
       'https://mindwrite-frontend.vercel.app',
       'https://mindwrite-frontend-git-main-aysenciftci23s-projects.vercel.app',
-      'https://mindwrite-frontend-b061s27h2-aysenciftc123s-projects.vercel.app', // Eklenen URL
+      'https://mindwrite-frontend-b061s27h2-aysenciftc123s-projects.vercel.app', 
     ],
     credentials: true,
   });

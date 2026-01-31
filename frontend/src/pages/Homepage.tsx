@@ -1,4 +1,4 @@
-// src/pages/Homepage.tsx (MODERN)
+
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
@@ -32,7 +32,7 @@ export default function Homepage() {
         fetch(`${API_URL}/posts`)
             .then(res => res.json())
             .then(data => {
-                // Sadece published olanları al
+                
                 const publishedPosts = data.filter((post: any) => post.status === 'published');
                 setPosts(publishedPosts);
                 setFilteredPosts(publishedPosts);
@@ -66,7 +66,7 @@ export default function Homepage() {
         return date.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
     };
 
-    // Popüler tag'leri bul
+   
     const popularTags = posts
         .flatMap(post => post.tags || [])
         .reduce((acc: any[], tag) => {
@@ -102,7 +102,7 @@ export default function Homepage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-            {/* Hero Section */}
+            {}
             <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white">
                 <div className="max-w-7xl mx-auto px-4 py-16">
                     <div className="flex flex-col md:flex-row items-center justify-between">
@@ -182,12 +182,12 @@ export default function Homepage() {
                 </div>
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Left Column - Posts */}
+                    {}
                     <div className="lg:w-2/3">
-                        {/* Header */}
+                        {}
                         <div className="mb-8">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="flex items-center">
@@ -209,7 +209,7 @@ export default function Homepage() {
                                 </div>
                             </div>
 
-                            {/* Popular Tags */}
+                            {}
                             <div className="mb-8">
                                 <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
                                     <FiTag className="mr-2" /> Popüler Etiketler
@@ -240,7 +240,7 @@ export default function Homepage() {
                             </div>
                         </div>
 
-                        {/* Posts List */}
+                        {}
                         {filteredPosts.length === 0 ? (
                             <div className="text-center py-16 bg-white rounded-2xl shadow-sm border">
                                 <div className="text-6xl mb-4">📝</div>
@@ -354,9 +354,9 @@ export default function Homepage() {
                         )}
                     </div>
 
-                    {/* Right Column - Sidebar */}
+                    {}
                     <div className="lg:w-1/3">
-                        {/* About Card */}
+                        {}
                         <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
                             <h3 className="text-lg font-bold text-gray-900 mb-4">ℹ️ MindWrite Hakkında</h3>
                             <p className="text-gray-700 mb-4">
@@ -378,7 +378,7 @@ export default function Homepage() {
                             </div>
                         </div>
 
-                        {/* Stats Card */}
+                        {}
                         <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-6 mb-6 border border-primary-200">
                             <h3 className="text-lg font-bold text-gray-900 mb-4">📊 Canlı İstatistikler</h3>
                             <div className="space-y-4">
@@ -412,7 +412,7 @@ export default function Homepage() {
                             </div>
                         </div>
 
-                        {/* Quick Actions */}
+                        {}
                         {user && (
                             <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4">⚡ Hızlı Erişim</h3>
@@ -471,7 +471,7 @@ export default function Homepage() {
                 </div>
             </div>
 
-            {/* Footer */}
+            {}
             <footer className="bg-gray-900 text-white mt-16">
                 <div className="max-w-7xl mx-auto px-4 py-8">
                     <div className="flex flex-col md:flex-row justify-between items-center">

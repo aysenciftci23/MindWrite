@@ -1,4 +1,4 @@
-// src/components/ProtectedRoute.tsx
+
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/LoggedInUserContext";
 
@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
     const { user, loading } = useAuth();
 
     if (loading) {
-        // Basit bir loading göstergesi veya null döndülebilir
+        
         return <div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>;
     }
 

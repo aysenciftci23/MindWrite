@@ -1,7 +1,7 @@
 import { useAuth } from "./LoggedInUserContext";
 import { API_URL } from "../api";
 
-// Custom hook: fetch wrapper with auto-logout on 401
+
 export function useAuthFetch() {
     const { token, logout } = useAuth();
 

@@ -1,7 +1,6 @@
-// backend/src/tags/tags.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm'; // In'i import et
+import { Repository, In } from 'typeorm';
 import { Tag } from './tags.entity';
 
 @Injectable()
@@ -20,17 +19,15 @@ export class TagsService {
         return this.tagRepository.find();
     }
 
-    // 🔥 BU METODU EKLE:
     async findByIds(ids: number[]): Promise<Tag[]> {
-        return this.tagRepository.findBy({ id: In(ids) }); // TypeORM v0.3+ için findBy kullan
-        // Veya eski versiyon için:
-        // return this.tagRepository.findByIds(ids);
+        return this.tagRepository.findBy({ id: In(ids) });
+
     }
-    // backend/src/tags/tags.service.ts'ye ekle:
+
     async findAllWithCount(): Promise<any[]> {
         const tags = await this.tagRepository.find();
 
-        // Her tag için post sayısını hesapla
+
         const tagsWithCount = await Promise.all(
             tags.map(async (tag) => {
                 const count = await this.tagRepository

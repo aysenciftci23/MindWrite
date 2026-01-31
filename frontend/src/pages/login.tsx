@@ -112,7 +112,7 @@ const Login = () => {
                         Kayıt ol
                     </Link>
                 </p>
-                {/* Forgot password removed per request */}
+                {}
 
 
             </div>

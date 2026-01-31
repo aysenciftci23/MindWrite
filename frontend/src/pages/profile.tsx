@@ -44,11 +44,11 @@ export default function Profile() {
     const [updateError, setUpdateError] = useState("");
     const [updateSuccess, setUpdateSuccess] = useState(false);
 
-    // Profil bilgilerini ve yazılarını çek
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // 1. Kullanıcı bilgisi çek (public endpoint)
+                
                 let userData: User | null = null;
                 if (username) {
                     const userRes = await authFetch(`${API_URL}/auth/users/${username}`);
@@ -57,12 +57,6 @@ export default function Profile() {
                     setProfileUser(userData);
                 }
 
-                // 2. Tüm post'ları çek
-                // Kullanıcının postlarını al (backend'de filter var mı kontrol etmeli, yoksa tümünü çekip filtrele)
-                // Şimdilik fake: backend endpoint'e user id parametresi eklemek en iyisi
-                // Veya /posts endpoint'i zaten var, filterelemeyi client'ta yapabiliriz (ama pagination için kötü)
-                // Backend'de filter varsa: /posts?authorId=...
-                // Mevcut backend yapısına göre:
                 const postsRes = await authFetch(`${API_URL}/posts`);
                 const allPosts = await postsRes.json();
                 const userPostsAll = allPosts.filter((post: any) =>
@@ -73,7 +67,7 @@ export default function Profile() {
                 setUserPosts(publishedPosts);
                 setDraftPosts(draftPosts);
 
-                // Eğer userData yoksa, postlardan author ile doldur
+               
                 if (!userData) {
                     if (userPostsAll.length > 0) {
                         userData = userPostsAll[0].author;
@@ -151,7 +145,7 @@ export default function Profile() {
                     ← Ana sayfaya dön
                 </Link>
 
-                {/* Profil Kartı */}
+                {}
                 <div className="bg-white rounded-xl shadow-md p-6 mb-6">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center space-x-4">
@@ -165,7 +159,7 @@ export default function Profile() {
                                     {(() => {
                                         const first = (profileUser.firstName ?? '').trim();
                                         const last = (profileUser.lastName ?? '').trim();
-                                        // Her zaman isim ve soyisim göster
+                                       
                                         const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
                                         return `${capitalize(first)}${first && last ? ' ' : ''}${capitalize(last)}`.trim();
                                     })()}
@@ -183,7 +177,7 @@ export default function Profile() {
                                     📅 {new Date(profileUser.createdAt).toLocaleDateString('tr-TR')} tarihinden beri üye
                                 </p>
 
-                                {/* Kendi profilime git butonu */}
+                                {}
                                 {!isMyProfile && currentUser && (
                                     <button
                                         onClick={goToMyProfile}
@@ -215,7 +209,7 @@ export default function Profile() {
                         )}
                     </div>
 
-                    {/* İstatistikler */}
+                    {}
                     <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
                         <div className="text-center">
                             <p className="text-2xl font-bold text-gray-900">{profileUser.postCount}</p>
@@ -237,7 +231,7 @@ export default function Profile() {
                 </div>
             </div>
 
-            {/* Profil Düzenleme (Sadece kendi profili için) */}
+            {}
             {isMyProfile && (
                 <div className="bg-gray-50 p-4 rounded-lg mt-4 mb-8">
                     {!editMode ? (
@@ -330,7 +324,7 @@ export default function Profile() {
                 </div>
             )}
 
-            {/* Kullanıcının Yayınlanan Yazıları */}
+            {}
             <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-6">
                     📝 {isMyProfile ? 'Yayınlanan Yazılarım' : 'Yayınlanan Yazıları'}
@@ -381,7 +375,7 @@ export default function Profile() {
                 )}
             </div>
 
-            {/* Kullanıcının Taslak Yazıları */}
+            {}
             <div className="mt-12">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">
                     📝 {isMyProfile ? 'Taslaklarım' : 'Taslakları'}
@@ -457,7 +451,7 @@ export default function Profile() {
                                             if (!res.ok) throw new Error('Admin yapılamadı');
                                             return res.json();
                                         })
-                                        .then(() => { // ⬅️ data parametresini kaldırdık
+                                        .then(() => {
                                             alert(`${profileUser.username} artık admin!`);
                                             setProfileUser(prev => prev ? { ...prev, role: 'admin' } : null);
                                         })

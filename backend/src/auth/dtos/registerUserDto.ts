@@ -17,7 +17,7 @@ export class RegisterUserDto {
   @IsNotEmpty()
   password: string;
 
-  // 🔥 ROL EKLENDİ (Opsiyonel, varsayılan 'user')
+
   @IsString()
   @IsOptional()
   role?: string;

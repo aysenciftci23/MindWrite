@@ -1,4 +1,4 @@
-// backend/src/auth/user.entity.ts
+
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 import { Post } from '../posts/posts.entity';
 
@@ -20,9 +20,9 @@ export class User {
   password: string;
 
   @Column({ default: 'editor' })
-  role: string; // 'admin' veya 'editor'
+  role: string;
 
-  @CreateDateColumn() // 🔥 BU SATIRI EKLE
+  @CreateDateColumn()
   createdAt: Date;
 
   @DeleteDateColumn({ nullable: true })

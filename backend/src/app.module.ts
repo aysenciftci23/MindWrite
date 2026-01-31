@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // ConfigModule'ü tüm app genelinde kullanılabilir yapar
+      isGlobal: true, 
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -17,18 +17,18 @@ import { AuthModule } from './auth/auth.module';
       useFactory: (configService: ConfigService) => {
         const url = configService.get<string>('DATABASE_URL');
 
-        // Eğer Render URL verirse onu kullan, SSL ayarını yap
+        
         if (url) {
           return {
             type: 'postgres',
             url: url,
             autoLoadEntities: true,
             synchronize: true,
-            ssl: { rejectUnauthorized: false }, // Render için zorunlu
+            ssl: { rejectUnauthorized: false }, 
           };
         }
 
-        // Local ortam için .env dosyasındaki değerleri kullan
+        
         return {
           type: 'postgres',
           host: configService.get<string>('DB_HOST', 'localhost'),
@@ -38,7 +38,7 @@ import { AuthModule } from './auth/auth.module';
           database: configService.get<string>('DB_NAME', 'mindWrite'),
           autoLoadEntities: true,
           synchronize: true,
-          ssl: false, // Localde SSL gerekmez
+          ssl: false, 
         };
       },
     }),

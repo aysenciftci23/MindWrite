@@ -35,11 +35,11 @@ export default function EditPost() {
     const [error, setError] = useState("");
     const [post, setPost] = useState<Post | null>(null);
 
-    // Post verilerini ve tag'leri yükle
+   
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Post verisini çek
+             
                 const postRes = await fetch(`${API_URL}/posts/${id}`);
                 if (!postRes.ok) throw new Error("Yazı bulunamadı");
 
@@ -50,14 +50,13 @@ export default function EditPost() {
                 setStatus(postData.status || "draft");
                 setSelectedTagIds(postData.tags.map(t => t.id));
 
-                // Yetki kontrolü
+                
                 if (user?.role !== "admin" && user?.id !== postData.author.id) {
                     setError("Bu yazıyı düzenleme yetkiniz yok");
                     return;
                 }
 
-                // Tag'leri çek
-                // Tag'leri çek
+                
                 const tagsRes = await fetch(`${API_URL}/tags`);
                 if (tagsRes.ok) {
                     const tagsData = await tagsRes.json();

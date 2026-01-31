@@ -29,7 +29,7 @@ export default function PostDetail() {
 
 
     useEffect(() => {
-        // Post'u çek
+
         fetch(`${API_URL}/posts/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error("Yazı bulunamadı");
@@ -68,7 +68,7 @@ export default function PostDetail() {
 
             if (res.ok) {
                 setComment("");
-                // Yorumları güncelle
+
                 const updatedPost = await fetch(`${API_URL}/posts/${id}`).then(r => r.json());
                 setPost(updatedPost);
             } else {
@@ -111,10 +111,10 @@ export default function PostDetail() {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Header Section */}
+            {}
             <div className="border-b border-gray-200">
                 <div className="max-w-3xl mx-auto px-4 py-8">
-                    {/* Back Button & Edit */}
+                    {}
                     <div className="flex items-center justify-between mb-8">
                         <Link to="/" className="text-gray-600 hover:text-gray-900 transition text-sm flex items-center">
                             <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,12 +135,12 @@ export default function PostDetail() {
                         )}
                     </div>
 
-                    {/* Title */}
+                    {}
                     <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6 leading-tight">
                         {post.title}
                     </h1>
 
-                    {/* Author Info */}
+                    {}
                     <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center text-white font-semibold text-lg">
                             {(post.author && post.author.username ? post.author.username.charAt(0).toUpperCase() : 'K')}
@@ -165,7 +165,7 @@ export default function PostDetail() {
                         </div>
                     </div>
 
-                    {/* Tags */}
+                    { }
                     {post.tags && post.tags.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-6">
                             {post.tags.map(tag => (
@@ -181,7 +181,7 @@ export default function PostDetail() {
                 </div>
             </div>
 
-            {/* Content Section */}
+            { }
             <article className="max-w-3xl mx-auto px-4 py-12">
                 <div className="prose prose-lg max-w-none">
                     <p className="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap font-serif">
@@ -190,14 +190,14 @@ export default function PostDetail() {
                 </div>
             </article>
 
-            {/* Comments Section */}
+            { }
             <div className="border-t border-gray-200 bg-gray-50">
                 <div className="max-w-3xl mx-auto px-4 py-12">
                     <h3 className="text-2xl font-bold text-gray-900 mb-8">
                         Yorumlar ({post.comments?.length || 0})
                     </h3>
 
-                    {/* Comment Form */}
+                    { }
                     {user ? (
                         <form onSubmit={handleCommentSubmit} className="mb-12 bg-white rounded-lg p-6 shadow-sm border border-gray-200">
                             <h4 className="font-semibold text-gray-900 mb-4">Yorum Yap ({user?.username})</h4>
@@ -227,7 +227,7 @@ export default function PostDetail() {
                         </div>
                     )}
 
-                    {/* Comments List */}
+                    { }
                     {post.comments && post.comments.length > 0 ? (
                         <div className="space-y-6">
                             {post.comments.map(comment => (
